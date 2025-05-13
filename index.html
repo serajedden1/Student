@@ -40,8 +40,8 @@
             measurementId: "G-BWZCERT3QF"
         };
 
-        // تهيئة Firebase بعد تحميل السكربتات
-        const app = firebase.initializeApp(firebaseConfig);
+        // تهيئة Firebase
+        const app = firebase.initializeApp(firebaseConfig); // تهيئة التطبيق
         const database = firebase.database(app); // تهيئة قاعدة البيانات
 
         // تعريف دالة submitForm
