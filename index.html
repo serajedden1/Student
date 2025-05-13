@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نموذج التسجيل - توعوي</title>
     <!-- إضافة Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
 </head>
 <body>
     <h2>نموذج تسجيل الدخول للطلاب</h2>
@@ -41,7 +41,7 @@
         };
 
         // تهيئة Firebase
-        const app = firebase.initializeApp(firebaseConfig); // تهيئة التطبيق
+        const app = firebase.initializeApp(firebaseConfig);
         const database = firebase.database(app); // تهيئة قاعدة البيانات
 
         // تعريف دالة submitForm
